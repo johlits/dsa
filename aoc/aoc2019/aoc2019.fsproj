@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="day06\Day6.fs" />
+    <Compile Include="day05\Day5.fs" />
+    <Compile Include="day03\Day3.fs" />
+    <Compile Include="day02\Day2.fs" />
+    <Compile Include="day04\Day4.fs" />
+    <Compile Include="day\Day.fs" />
+    <Compile Include="day01\Day1.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>

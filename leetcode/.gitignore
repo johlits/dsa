@@ -1,0 +1,81 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider-specific files
+.idea/
+
+# VS Code
+.vscode/
+
+# Auto-generated files
+*.generated.cs
+
+# Packages
+*.nupkg
+packages/
+*.snupkg
+
+# NuGet restore results
+project.lock.json
+project.assets.json
+*.nuget.props
+*.nuget.targets
+
+# Microsoft Visual Studio temporary files
+*.vspscc
+*.vssscc
+.vs/
+
+# ASP.NET specific
+wwwroot/lib/
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# DotCover
+*.dotCover
+
+# Logs
+*.log
+
+# Test results
+TestResults/
+*.trx
+
+# Entity Framework Migrations snapshot files
+*MigrationsSnapshot.cs
+
+# Global.json SDK override
+global.json
+
+# Local secrets
+secrets.json
+
+# JetBrains Rider
+.idea/
+
+# Docker
+*.container.config
+docker-compose.override.yml
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# MacOS metadata
+.DS_Store
+
+# Linux/macOS file system metadata
+*.swp
+*~
+
+# Optional: Ignore local environment settings
+.env
