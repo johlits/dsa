@@ -1,9 +1,11 @@
 using LeetCode.Test;
-using LeetCode.NQueens;
+using LeetCode.ReverseInteger;
+using System.Linq;
 
 var solution = new Solution();
 
-var arr = solution.SolveNQueens(9);
-Console.WriteLine("test");
+Console.WriteLine(solution.Reverse(123));
+Console.WriteLine(solution.Reverse(-123));
+Console.WriteLine(solution.Reverse(120));
 
 Console.WriteLine("");
