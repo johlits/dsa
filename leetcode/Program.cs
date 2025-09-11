@@ -1,6 +1,5 @@
 using LeetCode.Test;
 using LeetCode.ReverseInteger;
-using System.Linq;
 
 var solution = new Solution();
 
