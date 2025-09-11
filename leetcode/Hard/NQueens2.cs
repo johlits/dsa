@@ -134,7 +134,7 @@ namespace LeetCode.NQueens2
             return;
         }
 
-        public IList<IList<string>> SolveNQueens(int n)
+        public int TotalNQueens(int n)
         {
             solutions.Clear();
             char[,] board = new char[n, n];
@@ -149,7 +149,7 @@ namespace LeetCode.NQueens2
 
             Search(board, n, 0);
 
-            return solutions;
+            return solutions.Count();
         }
     }
 }
