@@ -1,10 +1,8 @@
 using LeetCode.Test;
-using LeetCode.ReverseInteger;
+using LeetCode.TrappingRainWater;
 
 var solution = new Solution();
 
-Console.WriteLine(solution.Reverse(123));
-Console.WriteLine(solution.Reverse(-123));
-Console.WriteLine(solution.Reverse(120));
+Console.WriteLine(solution.Trap([0,1,0,2,1,0,1,3,2,1,2,1]));
 
 Console.WriteLine("");
