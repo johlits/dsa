@@ -4,50 +4,37 @@ namespace LeetCode.TrappingRainWater
     {
         public int Trap(int[] height)
         {
-            var top = -1;
-            for (var i = 0; i < height.Length; i++)
-            {
-                if (height[i] > top)
-                {
-                    top = height[i];
-                }
-            }
-
+            var left = 0;
+            var right = height.Length - 1;
+            var leftMax = 0;
+            var rightMax = 0;
             var trappings = 0;
-            for (var i = 1; i <= top; i++)
+
+            while (left < right)
             {
-                //Console.WriteLine(i);
-                var from = -1;
-                var to = -1;
-                for (var j = 0; j < height.Length; j++)
+                if (height[left] < height[right])
                 {
-                    if (height[j] >= i)
+                    if (height[left] >= leftMax)
                     {
-                        if (from == -1)
-                        {
-                            from = j;
-                        }
-                        else if (to == -1)
-                        {
-                            to = j;
-                        }
-                        if (from != -1 && to != -1)
-                        {
-                            //Console.WriteLine("from " + from + " to " + to);
-                            if (to - from > 1)
-                            {
-                                trappings += to - from - 1;
-                                //Console.WriteLine("Trapping " + (to - from - 1));
-                                from = to;
-                                to = -1;
-                            }
-                            else if (to - from == 1)
-                            {
-                                from = to;
-                                to = -1;
-                            }
-                        }
+                        leftMax = height[left];
                     }
+                    else
+                    {
+                        trappings += leftMax - height[left];
+                    }
+                    left++;
+                }
+                else
+                {
+                    if (height[right] >= rightMax)
+                    {
+                        rightMax = height[right];
+                    }
+                    else
+                    {
+                        trappings += rightMax - height[right];
+                    }
+                    right--;
                 }
             }
 
