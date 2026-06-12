@@ -5,7 +5,7 @@ public class Solution {
         int dir = 0;
         while (true)
         {
-            if (id == -1)
+            if (id <= -1)
             {
                 return 0;
             }
