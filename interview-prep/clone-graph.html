@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clone Graph</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>Clone Graph</h2>
+      <span class="tag">Graph</span>
+      <span class="tag">BFS</span>
+      <span class="difficulty medium">Medium</span>
+      <p>Given a node in a connected graph, create a deep copy of the entire graph while preserving all connections.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach</h3>
+      <p>Use BFS starting from the given node. Maintain a dictionary that maps original nodes to their clones. For each original node, create a clone if it doesn't exist, then clone its neighbors. The graph is undirected and may contain cycles, so the visited map prevents infinite loops.</p>
+      <ul>
+        <li><strong>Time:</strong> O(V + E) — every node and edge is visited once.</li>
+        <li><strong>Space:</strong> O(V) for the clone map and queue.</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class Node {
+    public int val;
+    public IList&lt;Node&gt; neighbors;
+    public Node(int val = 0, IList&lt;Node&gt; neighbors = null) {
+        this.val = val;
+        this.neighbors = neighbors ?? new List&lt;Node&gt;();
+    }
+}
+
+public class Solution {
+    public Node CloneGraph(Node node) {
+        if (node == null) return null;
+
+        var visited = new Dictionary&lt;Node, Node&gt;();
+        var queue = new Queue&lt;Node&gt;();
+        queue.Enqueue(node);
+        visited[node] = new Node(node.val);
+
+        while (queue.Count &gt; 0) {
+            Node curr = queue.Dequeue();
+            foreach (Node neighbor in curr.neighbors) {
+                if (!visited.ContainsKey(neighbor)) {
+                    visited[neighbor] = new Node(neighbor.val);
+                    queue.Enqueue(neighbor);
+                }
+                visited[curr].neighbors.Add(visited[neighbor]);
+            }
+        }
+
+        return visited[node];
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

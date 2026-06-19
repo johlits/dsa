@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LRU Cache</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>LRU Cache</h2>
+      <span class="tag">Hash Map</span>
+      <span class="tag">Linked List</span>
+      <span class="difficulty medium">Medium</span>
+      <p>Design a cache with a fixed capacity that supports O(1) lookups and updates while evicting the least recently used item when full.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach</h3>
+      <p>Use a doubly linked list to store items in usage order (most recent at head, least recent at tail) and a dictionary for O(1) key lookups. On get/put, move the accessed node to the head. If capacity is exceeded, remove the tail node.</p>
+      <ul>
+        <li><strong>Get/Put Time:</strong> O(1)</li>
+        <li><strong>Space:</strong> O(capacity)</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class LRUCache {
+    private class Node {
+        public int Key, Value;
+        public Node Prev, Next;
+        public Node(int k, int v) { Key = k; Value = v; }
+    }
+
+    private readonly int capacity;
+    private readonly Dictionary&lt;int, Node&gt; map;
+    private Node head, tail;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        map = new Dictionary&lt;int, Node&gt;(capacity);
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.Next = tail;
+        tail.Prev = head;
+    }
+
+    public int Get(int key) {
+        if (!map.TryGetValue(key, out Node node)) return -1;
+        MoveToHead(node);
+        return node.Value;
+    }
+
+    public void Put(int key, int value) {
+        if (map.TryGetValue(key, out Node node)) {
+            node.Value = value;
+            MoveToHead(node);
+            return;
+        }
+        if (map.Count &gt;= capacity) {
+            map.Remove(tail.Prev.Key);
+            Remove(tail.Prev);
+        }
+        var newNode = new Node(key, value);
+        map[key] = newNode;
+        AddToHead(newNode);
+    }
+
+    private void AddToHead(Node node) {
+        node.Prev = head;
+        node.Next = head.Next;
+        head.Next.Prev = node;
+        head.Next = node;
+    }
+
+    private void Remove(Node node) {
+        node.Prev.Next = node.Next;
+        node.Next.Prev = node.Prev;
+    }
+
+    private void MoveToHead(Node node) {
+        Remove(node);
+        AddToHead(node);
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

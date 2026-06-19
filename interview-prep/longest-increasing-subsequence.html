@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Longest Increasing Subsequence</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>Longest Increasing Subsequence</h2>
+      <span class="tag">Binary Search</span>
+      <span class="tag">DP</span>
+      <span class="difficulty medium">Medium</span>
+      <p>Given an array of numbers, find the length of the longest subsequence whose values are strictly increasing.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach (Patience Sorting / Binary Search)</h3>
+      <p>Maintain a list where each element is the smallest tail of all increasing subsequences of a given length. For each number, binary search its position in this list. If it extends the list, append it; otherwise, replace the first element that is ≥ it. The length of the list is the answer.</p>
+      <ul>
+        <li><strong>Time:</strong> O(N log N)</li>
+        <li><strong>Space:</strong> O(N)</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class Solution {
+    public int LengthOfLIS(int[] nums) {
+        var tails = new List&lt;int&gt;();
+        foreach (int num in nums) {
+            int i = BinarySearch(tails, num);
+            if (i == tails.Count) tails.Add(num);
+            else tails[i] = num;
+        }
+        return tails.Count;
+    }
+
+    private int BinarySearch(List&lt;int&gt; list, int target) {
+        int lo = 0, hi = list.Count;
+        while (lo &lt; hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (list[mid] &lt; target) lo = mid + 1;
+            else hi = mid;
+        }
+        return lo;
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

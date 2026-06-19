@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merge k Sorted Lists</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>Merge k Sorted Lists</h2>
+      <span class="tag">Heap</span>
+      <span class="tag">Linked List</span>
+      <span class="difficulty hard">Hard</span>
+      <p>Merge k already-sorted linked lists into one sorted linked list efficiently.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach (Min-Heap)</h3>
+      <p>Insert the first node of each list into a min-heap. Repeatedly extract the smallest node and append it to the result, then insert the next node from that list into the heap. This avoids the O(k · n) cost of comparing all heads each time.</p>
+      <ul>
+        <li><strong>Time:</strong> O(N log k) where N is total nodes, k is number of lists.</li>
+        <li><strong>Space:</strong> O(k) for the heap.</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class ListNode {
+    public int val;
+    public ListNode next;
+    public ListNode(int val = 0, ListNode next = null) {
+        this.val = val; this.next = next;
+    }
+}
+
+public class Solution {
+    public ListNode MergeKLists(ListNode[] lists) {
+        var heap = new PriorityQueue&lt;ListNode, int&gt;();
+        foreach (var list in lists) {
+            if (list != null) heap.Enqueue(list, list.val);
+        }
+
+        var dummy = new ListNode();
+        var tail = dummy;
+
+        while (heap.Count &gt; 0) {
+            var node = heap.Dequeue();
+            tail.next = node;
+            tail = node;
+            if (node.next != null) {
+                heap.Enqueue(node.next, node.next.val);
+            }
+        }
+
+        return dummy.next;
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

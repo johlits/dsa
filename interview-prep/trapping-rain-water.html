@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trapping Rain Water</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>Trapping Rain Water</h2>
+      <span class="tag">Two Pointers</span>
+      <span class="difficulty hard">Hard</span>
+      <p>Given an elevation map represented as bars of different heights, calculate how much water would be trapped after rainfall.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach (Two Pointers)</h3>
+      <p>Water trapped at any index is determined by the smaller of the maximum height to its left and right. Use two pointers from both ends, maintaining the left and right maxima. Move the pointer at the smaller side inward, because the water level there is bounded by the smaller max.</p>
+      <ul>
+        <li><strong>Time:</strong> O(N)</li>
+        <li><strong>Space:</strong> O(1)</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class Solution {
+    public int Trap(int[] height) {
+        int left = 0, right = height.Length - 1;
+        int leftMax = 0, rightMax = 0;
+        int water = 0;
+
+        while (left &lt; right) {
+            if (height[left] &lt; height[right]) {
+                if (height[left] &gt;= leftMax) leftMax = height[left];
+                else water += leftMax - height[left];
+                left++;
+            } else {
+                if (height[right] &gt;= rightMax) rightMax = height[right];
+                else water += rightMax - height[right];
+                right--;
+            }
+        }
+        return water;
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

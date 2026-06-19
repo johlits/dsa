@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>N-Queens</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>N-Queens</h2>
+      <span class="tag">Backtracking</span>
+      <span class="difficulty hard">Hard</span>
+      <p>Place <em>n</em> queens on an <em>n × n</em> chessboard so that no two queens attack each other. Return all distinct solutions.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach</h3>
+      <p>Use backtracking: place one queen per row. For each row, try every column and check if the position conflicts with already placed queens (same column or diagonal). If valid, recurse to the next row. When all rows are filled, record the board configuration.</p>
+      <ul>
+        <li><strong>Time:</strong> O(N!) — roughly N choices, then N-2, etc.</li>
+        <li><strong>Space:</strong> O(N) for the recursion stack and board state.</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class Solution {
+    public IList&lt;IList&lt;string&gt;&gt; SolveNQueens(int n) {
+        var result = new List&lt;IList&lt;string&gt;&gt;();
+        var board = new char[n][];
+        for (int i = 0; i &lt; n; i++) {
+            board[i] = new char[n];
+            Array.Fill(board[i], '.');
+        }
+        Backtrack(0);
+        return result;
+
+        void Backtrack(int row) {
+            if (row == n) {
+                var copy = new List&lt;string&gt;();
+                foreach (var r in board) copy.Add(new string(r));
+                result.Add(copy);
+                return;
+            }
+            for (int col = 0; col &lt; n; col++) {
+                if (IsValid(row, col)) {
+                    board[row][col] = 'Q';
+                    Backtrack(row + 1);
+                    board[row][col] = '.';
+                }
+            }
+        }
+
+        bool IsValid(int row, int col) {
+            for (int i = 0; i &lt; row; i++) {
+                if (board[i][col] == 'Q') return false;
+            }
+            for (int i = row - 1, j = col - 1; i &gt;= 0 && j &gt;= 0; i--, j--) {
+                if (board[i][j] == 'Q') return false;
+            }
+            for (int i = row - 1, j = col + 1; i &gt;= 0 && j &lt; n; i--, j++) {
+                if (board[i][j] == 'Q') return false;
+            }
+            return true;
+        }
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word Ladder</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>Word Ladder</h2>
+      <span class="tag">BFS</span>
+      <span class="difficulty hard">Hard</span>
+      <p>Given a start word, an end word, and a dictionary, find the shortest sequence of valid one-letter transformations that converts the start word into the end word.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach (Bidirectional BFS)</h3>
+      <p>Start BFS from both the begin word and the end word simultaneously. This cuts the search space roughly in half compared to single-source BFS. For each word, generate all possible words by changing one letter at a time and check if they exist in the dictionary.</p>
+      <ul>
+        <li><strong>Time:</strong> O(N · 26<sup>L/2</sup>) where L is word length, N is dictionary size.</li>
+        <li><strong>Space:</strong> O(N)</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class Solution {
+    public int LadderLength(string beginWord, string endWord, IList&lt;string&gt; wordList) {
+        var wordSet = new HashSet&lt;string&gt;(wordList);
+        if (!wordSet.Contains(endWord)) return 0;
+
+        var beginSet = new HashSet&lt;string&gt; { beginWord };
+        var endSet = new HashSet&lt;string&gt; { endWord };
+        int length = 1;
+
+        while (beginSet.Count &gt; 0) {
+            length++;
+            var nextSet = new HashSet&lt;string&gt;();
+            foreach (var word in beginSet) {
+                wordSet.Remove(word);
+            }
+            foreach (var word in beginSet) {
+                for (int i = 0; i &lt; word.Length; i++) {
+                    char[] chars = word.ToCharArray();
+                    for (char c = 'a'; c &lt;= 'z'; c++) {
+                        chars[i] = c;
+                        string next = new string(chars);
+                        if (endSet.Contains(next)) return length;
+                        if (wordSet.Contains(next)) nextSet.Add(next);
+                    }
+                }
+            }
+            if (nextSet.Count &lt; endSet.Count) {
+                beginSet = nextSet;
+            } else {
+                beginSet = endSet;
+                endSet = nextSet;
+            }
+        }
+        return 0;
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

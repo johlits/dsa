@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sliding Window Maximum</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>Sliding Window Maximum</h2>
+      <span class="tag">Deque</span>
+      <span class="difficulty hard">Hard</span>
+      <p>Given an array and a window size k, return the maximum value in every contiguous window of size k as the window moves across the array.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach (Monotonic Deque)</h3>
+      <p>Maintain a deque of indices such that their corresponding values are in decreasing order. The front of the deque is always the maximum of the current window. Remove elements that fall outside the window and elements smaller than the new element from the back.</p>
+      <ul>
+        <li><strong>Time:</strong> O(N) — each element is inserted and removed at most once.</li>
+        <li><strong>Space:</strong> O(k) for the deque.</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class Solution {
+    public int[] MaxSlidingWindow(int[] nums, int k) {
+        var deque = new LinkedList&lt;int&gt;();
+        var result = new List&lt;int&gt;();
+
+        for (int i = 0; i &lt; nums.Length; i++) {
+            // Remove indices out of this window
+            if (deque.Count &gt; 0 && deque.First.Value &lt;= i - k)
+                deque.RemoveFirst();
+
+            // Remove smaller values from the back
+            while (deque.Count &gt; 0 && nums[deque.Last.Value] &lt;= nums[i])
+                deque.RemoveLast();
+
+            deque.AddLast(i);
+
+            // Start adding to result once window is full
+            if (i &gt;= k - 1)
+                result.Add(nums[deque.First.Value]);
+        }
+
+        return result.ToArray();
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

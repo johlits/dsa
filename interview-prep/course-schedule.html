@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course Schedule</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>Course Schedule</h2>
+      <span class="tag">Topological Sort</span>
+      <span class="tag">BFS</span>
+      <span class="difficulty medium">Medium</span>
+      <p>Given course prerequisites, determine whether it is possible to complete all courses. A cycle in the dependency graph makes it impossible.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach (Kahn's Algorithm)</h3>
+      <p>Build a directed graph from prerequisites and compute the in-degree of each node. Use a queue to process courses with in-degree 0. For each processed course, reduce the in-degree of its neighbors. If all courses are processed, there is no cycle.</p>
+      <ul>
+        <li><strong>Time:</strong> O(V + E)</li>
+        <li><strong>Space:</strong> O(V + E)</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class Solution {
+    public bool CanFinish(int numCourses, int[][] prerequisites) {
+        var adj = new List&lt;int&gt;[numCourses];
+        for (int i = 0; i &lt; numCourses; i++) adj[i] = new List&lt;int&gt;();
+        var inDegree = new int[numCourses];
+
+        foreach (var pre in prerequisites) {
+            int course = pre[0], req = pre[1];
+            adj[req].Add(course);
+            inDegree[course]++;
+        }
+
+        var queue = new Queue&lt;int&gt;();
+        for (int i = 0; i &lt; numCourses; i++)
+            if (inDegree[i] == 0) queue.Enqueue(i);
+
+        int processed = 0;
+        while (queue.Count &gt; 0) {
+            int curr = queue.Dequeue();
+            processed++;
+            foreach (int next in adj[curr]) {
+                inDegree[next]--;
+                if (inDegree[next] == 0) queue.Enqueue(next);
+            }
+        }
+
+        return processed == numCourses;
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

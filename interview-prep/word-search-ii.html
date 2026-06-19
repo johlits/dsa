@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word Search II</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>Word Search II</h2>
+      <span class="tag">Trie</span>
+      <span class="tag">Backtracking</span>
+      <span class="difficulty hard">Hard</span>
+      <p>Given a grid of letters and a list of words, find all words that can be formed by traversing adjacent cells without reusing a cell in the same word.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach</h3>
+      <p>Build a Trie from the word list. For each cell in the board, run DFS using the Trie to prune paths that cannot match any word. When a complete word is found, add it to the result and remove it from the Trie to avoid duplicates.</p>
+      <ul>
+        <li><strong>Time:</strong> O(M · N · 4<sup>L</sup>) worst case, but Trie pruning makes it much faster in practice.</li>
+        <li><strong>Space:</strong> O(K · L) for the Trie, where K is number of words and L is average length.</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class Solution {
+    private class TrieNode {
+        public TrieNode[] Children = new TrieNode[26];
+        public string Word;
+    }
+
+    private TrieNode root;
+    private char[][] board;
+    private int m, n;
+    private IList&lt;string&gt; result = new List&lt;string&gt;();
+
+    public IList&lt;string&gt; FindWords(char[][] board, string[] words) {
+        this.board = board;
+        m = board.Length;
+        n = board[0].Length;
+        root = new TrieNode();
+        foreach (var word in words) {
+            var node = root;
+            foreach (var ch in word) {
+                int idx = ch - 'a';
+                if (node.Children[idx] == null) node.Children[idx] = new TrieNode();
+                node = node.Children[idx];
+            }
+            node.Word = word;
+        }
+
+        for (int i = 0; i &lt; m; i++)
+            for (int j = 0; j &lt; n; j++)
+                Dfs(i, j, root);
+
+        return result;
+    }
+
+    private void Dfs(int i, int j, TrieNode node) {
+        if (i &lt; 0 || i &gt;= m || j &lt; 0 || j &gt;= n) return;
+        char ch = board[i][j];
+        if (ch == '#') return;
+        int idx = ch - 'a';
+        if (node.Children[idx] == null) return;
+
+        node = node.Children[idx];
+        if (node.Word != null) {
+            result.Add(node.Word);
+            node.Word = null; // avoid duplicates
+        }
+
+        board[i][j] = '#';
+        Dfs(i + 1, j, node);
+        Dfs(i - 1, j, node);
+        Dfs(i, j + 1, node);
+        Dfs(i, j - 1, node);
+        board[i][j] = ch;
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Binary Tree Maximum Path Sum</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>Binary Tree Maximum Path Sum</h2>
+      <span class="tag">Tree</span>
+      <span class="tag">DP</span>
+      <span class="difficulty hard">Hard</span>
+      <p>Find the maximum possible sum of values along any path in a binary tree. The path can start and end anywhere but must follow parent-child connections.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach</h3>
+      <p>For each node, compute the maximum gain from the left and right subtrees (ignore negative gains). The maximum path sum through this node is <code>node.val + leftGain + rightGain</code>. Update the global maximum. Return <code>node.val + max(leftGain, rightGain)</code> to the parent so the path remains valid (no branching).</p>
+      <ul>
+        <li><strong>Time:</strong> O(N)</li>
+        <li><strong>Space:</strong> O(H) for recursion stack.</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class TreeNode {
+    public int val;
+    public TreeNode left;
+    public TreeNode right;
+    public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null) {
+        this.val = val; this.left = left; this.right = right;
+    }
+}
+
+public class Solution {
+    private int maxSum = int.MinValue;
+
+    public int MaxPathSum(TreeNode root) {
+        Gain(root);
+        return maxSum;
+    }
+
+    private int Gain(TreeNode node) {
+        if (node == null) return 0;
+
+        int leftGain = Math.Max(Gain(node.left), 0);
+        int rightGain = Math.Max(Gain(node.right), 0);
+
+        int priceNewPath = node.val + leftGain + rightGain;
+        maxSum = Math.Max(maxSum, priceNewPath);
+
+        return node.val + Math.Max(leftGain, rightGain);
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

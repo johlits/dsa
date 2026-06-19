@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find Median from Data Stream</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>Find Median from Data Stream</h2>
+      <span class="tag">Heap</span>
+      <span class="difficulty hard">Hard</span>
+      <p>Continuously receive numbers and efficiently return the median after each insertion.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach (Two Heaps)</h3>
+      <p>Maintain a max-heap for the lower half and a min-heap for the upper half. Ensure the heaps are balanced (sizes differ by at most 1). The median is the top of the larger heap, or the average of both tops if they are equal size.</p>
+      <ul>
+        <li><strong>AddNum Time:</strong> O(log N)</li>
+        <li><strong>FindMedian Time:</strong> O(1)</li>
+        <li><strong>Space:</strong> O(N)</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class MedianFinder {
+    // max-heap for the lower half (stored as negative values)
+    private PriorityQueue&lt;int, int&gt; low;
+    // min-heap for the upper half
+    private PriorityQueue&lt;int, int&gt; high;
+
+    public MedianFinder() {
+        low = new PriorityQueue&lt;int, int&gt;(Comparer&lt;int&gt;.Default);
+        high = new PriorityQueue&lt;int, int&gt;();
+    }
+
+    public void AddNum(int num) {
+        if (low.Count == 0 || num &lt;= low.Peek()) {
+            low.Enqueue(num, -num);
+        } else {
+            high.Enqueue(num, num);
+        }
+
+        // Rebalance
+        if (low.Count &gt; high.Count + 1) {
+            int val = low.Dequeue();
+            high.Enqueue(val, val);
+        } else if (high.Count &gt; low.Count) {
+            int val = high.Dequeue();
+            low.Enqueue(val, -val);
+        }
+    }
+
+    public double FindMedian() {
+        if (low.Count &gt; high.Count) return low.Peek();
+        return (low.Peek() + high.Peek()) / 2.0;
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

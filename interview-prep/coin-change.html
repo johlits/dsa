@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coin Change</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← Back to index</a>
+
+    <div class="problem-card">
+      <h2>Coin Change</h2>
+      <span class="tag">DP</span>
+      <span class="difficulty medium">Medium</span>
+      <p>Given coin denominations and a target amount, determine the minimum number of coins needed to make that amount, or report that it's impossible.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Approach (Bottom-up DP)</h3>
+      <p>Let <code>dp[i]</code> be the minimum coins needed for amount <code>i</code>. Initialize with infinity (or amount + 1). For each coin, update all reachable amounts. If <code>dp[amount]</code> remains infinity, return -1.</p>
+      <ul>
+        <li><strong>Time:</strong> O(A · C) where A = amount, C = number of coins.</li>
+        <li><strong>Space:</strong> O(A)</li>
+      </ul>
+    </div>
+
+    <pre><code class="language-csharp">public class Solution {
+    public int CoinChange(int[] coins, int amount) {
+        int max = amount + 1;
+        var dp = new int[max];
+        Array.Fill(dp, max);
+        dp[0] = 0;
+
+        for (int i = 1; i &lt;= amount; i++) {
+            foreach (int coin in coins) {
+                if (coin &lt;= i) {
+                    dp[i] = Math.Min(dp[i], dp[i - coin] + 1);
+                }
+            }
+        }
+
+        return dp[amount] &gt; amount ? -1 : dp[amount];
+    }
+}</code></pre>
+
+    <footer>Interview Prep</footer>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+</body>
+</html>

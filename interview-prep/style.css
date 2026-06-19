@@ -1,0 +1,193 @@
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79b8ff;
+  --code-bg: #1e2530;
+  --success: #3fb950;
+  --danger: #f85149;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+  color: var(--text);
+}
+
+header p {
+  margin: 0;
+  color: var(--muted);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.problem-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.problem-list li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  transition: border-color 0.15s ease;
+}
+
+.problem-list li:hover {
+  border-color: var(--accent);
+}
+
+.problem-list a {
+  display: block;
+  padding: 1rem 1.25rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.problem-list a:hover {
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+
+.problem-list .title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.problem-list .desc {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.problem-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.problem-card h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+
+.problem-card .difficulty {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.difficulty.hard {
+  background: rgba(248, 81, 73, 0.15);
+  color: var(--danger);
+}
+
+.difficulty.medium {
+  background: rgba(210, 153, 34, 0.15);
+  color: #d29934;
+}
+
+.explanation {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.explanation h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.explanation p,
+.explanation li {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.explanation ul {
+  padding-left: 1.25rem;
+}
+
+pre {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  background: rgba(88, 166, 255, 0.12);
+  color: var(--accent);
+  margin-right: 0.4rem;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
