@@ -1,23 +1,30 @@
 public class Solution {
-    public int calculateDistance(int val, int target) {
-        return Math.Abs(val - target);
-    }
     public int ThreeSumClosest(int[] nums, int target) {
-        var len = nums.Length;
-        var bestSum = Int32.MaxValue;
-        var bestDistance = Int32.MaxValue;
-        for (var i = 0; i < len; i++) {
-            for (var j = i + 1; j < len; j++) {
-                for (var k = j + 1; k < len; k++) {
-                    var sum = nums[i] + nums[j] + nums[k];
-                    var dist = calculateDistance(sum, target);
-                    if (dist < bestDistance) {
-                        bestSum = sum;
-                        bestDistance = dist;
-                    }
+        Array.Sort(nums);
+
+        int bestSum = nums[0] + nums[1] + nums[2];
+
+        for (int i = 0; i < nums.Length - 2; i++) {
+            int left = i + 1;
+            int right = nums.Length - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (Math.Abs(sum - target) < Math.Abs(bestSum - target)) {
+                    bestSum = sum;
+                }
+
+                if (sum < target) {
+                    left++;
+                } else if (sum > target) {
+                    right--;
+                } else {
+                    return target; // perfect match
                 }
             }
         }
+
         return bestSum;
     }
 }
